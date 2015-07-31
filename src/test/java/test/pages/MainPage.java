@@ -59,7 +59,7 @@ public class MainPage extends Page {
     public MainPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
-        this.PAGE_URL = baseUrl + "/home";
+        this.PAGE_URL = "http://dropbox.com/home";
         PropertyConfigurator.configure("log4j.properties");
     }
 
@@ -73,14 +73,8 @@ public class MainPage extends Page {
 
     // Waits until drpboxname element appears on the screen
     public MainPage waitUntilMainPageIsLoaded() {
-        try {
-            Log.info("Wait for Main page to load");
-            waitUntilElementIsLoaded(dropboxName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            Log.info("Waiting for Main page to load");
+            waitUntilIsLoaded(upperMenu);
         return this;
     }
 
@@ -168,13 +162,12 @@ public class MainPage extends Page {
 //methods, checking that elements exists
 
     public boolean isOnMainPage() {
-        waitUntilMainPageIsLoaded();
-        return exists(dropboxName);
+        return exists(chooseFileButton);
     }
 
 
     public boolean isLoggedIn(){
-        return exists(upperMenu);
+        return exists(chooseFileButton);
     }
 
     public boolean fileIsCreated (String filename) {

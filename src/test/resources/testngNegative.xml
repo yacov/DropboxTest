@@ -2,6 +2,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Tests" verbose="5">
   <test name="Test1">
+    <groups>
+      <run>
+        <exclude name="positive"/>
+        <include name="negative"/>
+      </run>
+    </groups>
 
 
     <classes>

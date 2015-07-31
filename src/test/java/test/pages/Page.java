@@ -1,16 +1,13 @@
 package test.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import test.util.PropertyLoader;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 
@@ -32,12 +29,8 @@ public abstract class Page {
 
   public Page(WebDriver driver) {
     this.driver=driver;
-    this.allElementsMap = new HashMap<String, String>();
-    try {
-      baseUrl = PropertyLoader.loadProperty("site.url");
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+      this.allElementsMap = new HashMap<String, String>();
+    baseUrl = "http://dropbox.com";
   }
 
   private WebElement getWebElement(String name) {
@@ -69,7 +62,7 @@ public abstract class Page {
     driver.navigate().refresh();
   }
 
-  public void waitUntilIsLoaded(String name) throws IOException, InterruptedException {
+  public void waitUntilIsLoaded(String name) {
     WebElement element = getWebElement(name);
 
     new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(element));
@@ -112,7 +105,7 @@ public abstract class Page {
   }
 
   public void waitUntilIsLoaded(WebElement element) {
-    new WebDriverWait(driver, 60).until(ExpectedConditions.visibilityOf(element));
+    new WebDriverWait(driver, 15).until(ExpectedConditions.visibilityOf(element));
   }
 
 
@@ -149,23 +142,12 @@ public abstract class Page {
     try {
       return element.isDisplayed();
     } catch (org.openqa.selenium.NoSuchElementException ignored) {
-      System.out.println("---------------------------------");
-      System.out.println("element can not be found by Page.isDisplayed()" );
-      System.out.println("---------------------------------");
       return false;
     }
   }
 
-  public void waitUntilElementIsLoaded(WebElement element) throws IOException, InterruptedException {
-    try {
-      new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOf(element));
-
-    }catch (TimeoutException e){
-
-      System.out.println("---------------------------------");
-      System.out.println("No element found. Method: Page.waitUntilElementIsLoaded()");
-      System.out.println("---------------------------------");
-    }
+  public void waitUntilElementIsLoaded(WebElement element, int time) {
+    new WebDriverWait(driver, time).until(ExpectedConditions.visibilityOf(element));
   }
 
   public void waitForElement(WebDriverWait wait, String element) {

@@ -7,8 +7,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import test.util.LogLog4j;
 
-import java.io.IOException;
-
 /**
  * Created by Iakov Volf on 30.07.2015.
  */
@@ -18,9 +16,9 @@ public class LoginPage extends Page {
     // log in elements
     @FindBy(xpath = "//*[contains(text(),'Log in')]")
     WebElement loginTitle;
-    @FindBy(name = "email")
+    @FindBy(xpath = "//input[@name='login_email']")
     WebElement emailField;
-    @FindBy(name = "password")
+    @FindBy(xpath = "//input[@name='login_password']")
     WebElement passwordField;
     @FindBy(xpath = "//*[@id='regular-login-forms']/form[1]/div[3]/button[@type='submit']")
     WebElement loginButton;
@@ -33,30 +31,25 @@ public class LoginPage extends Page {
 
     public LoginPage(WebDriver driver) {
         super(driver);
-        this.PAGE_URL = baseUrl + "/login";
+        this.PAGE_URL = "http://dropbox.com/login";
         PageFactory.initElements(driver, this);
     }
 
     public LoginPage openLoginPage() {
         Log.info("Opening login page");
-        driver.get("http://www.dropbox.com");
+        driver.get(PAGE_URL);
         return this;
     }
 
     public LoginPage waitUntilLoginPageIsLoaded() {
-        try {
-            waitUntilElementIsLoaded(loginTitle);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }return this;
+        waitUntilElementIsLoaded(loginButton, 45);
+        return this;
     }
 
 
     public boolean isOnLoginPage() {
         waitUntilLoginPageIsLoaded();
-        return exists(loginTitle);
+        return exists(loginButton);
     }
 
     public LoginPage fillEmailField(String email) {

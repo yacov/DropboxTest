@@ -30,7 +30,7 @@ public class DataProviders {
     }
 
     @DataProvider
-    public static Iterator<Object[]> filesPath() throws IOException {
+    public static Iterator<Object[]> filePath() throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(
                 DataProviders.class.getResourceAsStream("/filesPath.data")));
 
